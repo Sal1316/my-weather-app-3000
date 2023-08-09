@@ -54,6 +54,9 @@ function getFiveDayForecast(lat, lon) {
             });
 }
 function renderWeather(forecast) {// assigns the json objects values, to their respective element on the single current weather day.    
+      // clear values first:
+      $("#currentWeather").empty();
+
       var cityName = forecast.city.name;
       var cityTemp = kelvinToFahrenheit(forecast.list[0].main.temp); // [0] will eventually be replaced with i. 
       var cityWind = forecast.list[0].wind.speed;
@@ -74,6 +77,9 @@ function renderWeather(forecast) {// assigns the json objects values, to their r
       resultsContainer.append(humidity);
 }
 function renderBottomCards(forecast) {
+      // clear values first:
+      $("#dayCards").empty();
+
       var dayCardsContainer = $("#dayCards");
       var data = forecast.list;  // data = 40 arrays of times
 
@@ -111,8 +117,6 @@ function iconChooser(temp, cloud, rain, thunder) {
 /* Bugs: 
 
 - should store data in localStorge so you dont make a call every time.
-
-- not clearing the data when you select a different city.
 
 - if time permits, get a background to show on current weather element.
 
