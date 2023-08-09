@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document Location</title>
+    <!-- boostrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+    />
+    <!-- fontawesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <!-- google fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"
+    ></script>
+    <!-- dayjs() -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+      integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" type="text/css" href="./assets/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Weather Dashboard</h1>
+    </header>
+    <main>
+      <aside class="col-2">
+        <div id="searchContainer">
+          <h2>Search for a City:</h2>
+          <!-- search bar -->
+          <form class="d-flex" role="search">
+            <input
+              id="cityInput"
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+          </form>
+          <button type="button" id="searchBtn" class="btn btn-primary">
+            Search
+          </button>
+          <!-- border bottom -->
+        </div>
+        <div id="cityBtns" class="col">
+          <button id="atlanta" type="button" class="btn btn-secondary">
+            Atlanta
+          </button>
+          <button id="denver" type="button" class="btn btn-secondary">
+            Denver
+          </button>
+          <button id="seattle" type="button" class="btn btn-secondary">
+            Seattle
+          </button>
+          <button id="sanFrancisco" type="button" class="btn btn-secondary">
+            San Francisco
+          </button>
+          <button id="orlando" type="button" class="btn btn-secondary">
+            Orlando
+          </button>
+          <button id="newYork" type="button" class="btn btn-secondary">
+            New York
+          </button>
+          <button id="chicago" type="button" class="btn btn-secondary">
+            Chicago
+          </button>
+          <button id="austin" type="button" class="btn btn-secondary">
+            Austin
+          </button>
+        </div>
+      </aside>
+      <section class="col-8">
+        <div id="currentWeather">
+          <!-- append here -->
+        </div>
+        <div id="cardContainer">
+          <p><b>5-Day Forecast:</b></p>
+          <div id="dayCards">
+            <div class="card">
+              <p>8/2/23</p>
+              <ol>
+                <li>Temp:</li>
+                <li>Wind:</li>
+                <li>Humidity:</li>
+              </ol>
+            </div>
+            <div class="card">
+              <p>8/3/23</p>
+              <ol>
+                <li>Temp:</li>
+                <li>Wind:</li>
+                <li>Humidity:</li>
+              </ol>
+            </div>
+            <div class="card">
+              <p>8/4/23</p>
+              <ol>
+                <li>Temp:</li>
+                <li>Wind:</li>
+                <li>Humidity:</li>
+              </ol>
+            </div>
+            <div class="card">
+              <p>8/5/23</p>
+              <ol>
+                <li>Temp:</li>
+                <li>Wind:</li>
+                <li>Humidity:</li>
+              </ol>
+            </div>
+            <div class="card">
+              <p>8/6/23</p>
+              <ol>
+                <li>Temp:</li>
+                <li>Wind:</li>
+                <li>Humidity:</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="col-2"></section>
+    </main>
+    <script src="./Assets/script.js"></script>
+    <!-- boostrap -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
