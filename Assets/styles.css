@@ -1,0 +1,63 @@
+/* for layout only */
+header {
+      background: linear-gradient(.25turn, rgb(44, 61, 186), 50%, rgb(34, 15, 109));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 7vh; /* Adjust this value if needed */
+
+}
+header h1 {
+      position: absolute;
+      left: 55%;  
+    }
+main {
+      display: flex;
+      padding: 5px;
+}
+aside {
+     /* border: 1px solid blue; */
+     padding-right: 12px;
+}
+#searchContainer{
+      padding-bottom: 5px;
+      border-bottom: 2px solid grey;
+}
+#searchBtn {
+      margin-top: 24px;
+
+}
+button {
+      width: 100%;
+     
+      margin-top:14px;
+}
+section {
+      
+}
+#currentWeather {
+      border: 1px solid black;
+      padding: 3px;
+      margin: 3px;   
+}
+#cardContainer {
+      margin: 3px;
+      color: white;
+      
+}
+#dayCards {
+      display:flex;
+      justify-content: space-between;
+    
+}
+.card {
+      background-color: rgb(30, 44, 81);
+      height: 160px;
+      width: 125px;
+      
+}
+.card li {
+      list-style: none;
+      
+}
