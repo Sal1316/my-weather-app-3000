@@ -18,7 +18,7 @@ function onCityBtnClick(event) { // on city button click, pass the inner text to
       event.preventDefault();
       var cityName = event.target.innerText;
 
-      console.log("oncityNameBtnClick: ", cityName);
+      // console.log("oncityNameBtnClick: ", cityName);
       // call 
       getLatAndLong(cityName);
       // fetchWeatherForcast(cityName); // dont need bc its being replaced with getFiveDayForecast().
@@ -33,7 +33,7 @@ function getLatAndLong(city) { // fx gets the latitude and longitude coordinates
             .then(function (data) {
                   var lat = data[0].lat;
                   var lon = data[0].lon;
-                  console.log("latitude: " + lat + " longitude: " + lon);
+                  // console.log("latitude: " + lat + " longitude: " + lon);
 
                   getFiveDayForecast(lat, lon);
             });
@@ -51,7 +51,7 @@ function getFiveDayForecast(lat, lon) {
                   return response.json(); // need to have the return here so we can use the next .then to get the response data.
             })
             .then(function (data) {
-                  console.log("getFiveDayForecast", data);
+                  // console.log("getFiveDayForecast", data);
                   // var lists = data.list
                   renderWeather(data);
                   renderBottomCards(data);
@@ -82,7 +82,7 @@ function renderWeather(forecast) {// assigns the json objects values, to their r
       var cityTemp = kelvinToFahrenheit(forecast.list[0].main.temp); // [0] will eventually be replaced with i. 
       var cityWind = forecast.list[0].wind.speed;
       var cityHumid = forecast.list[0].main.humidity;
-      console.log("renderWeather: " + cityName + ", " + cityTemp + ", " + cityWind + ", " + cityHumid)
+      // console.log("renderWeather: " + cityName + ", " + cityTemp + ", " + cityWind + ", " + cityHumid)
 
       var resultsContainer = document.getElementById("currentWeather"); // convert to jquery after working
 
@@ -108,33 +108,39 @@ function renderWeather(forecast) {// assigns the json objects values, to their r
       var humidity = document.createElement("p");
       humidity.textContent = "Humidity: " + cityHumid + " %";
       resultsContainer.append(humidity);
-
 }
 function renderBottomCards(forecast) {
-      console.log("renderBottomCards: ", forecast);
+      // console.log("renderBottomCards: ", forecast);
 
-      // var dayCardsContainer = $("#dayCards");
-      // var data = forecast.list;  // data = 40 arrays
-      // console.log("Data:", data);// 
+      var dayCardsContainer = $("#dayCards");
+      var data = forecast.list;  // data = 40 arrays of times
 
-      // for (var i = 0; data.length < 5; i += 8) { // loops over the midnight time. every 8th array.
-      //       console.log("entered for loop!!!!!!!!!!");
-      //       var timeStamp = forecast.list[i].dt;
-      //       var dateObj = dayjs.unix(timeStamp);
-      //       var formattedDate = dateObj.format('MM/DD/YYYY');
+      for (var i = 0; i < data.length; i += 8) { // loops over the midnight time. every 8th array.
+            var timeStamp = forecast.list[i].dt;
+            var dateObj = dayjs.unix(timeStamp);
+            var formattedDate = dateObj.format('MM/DD/YYYY');
 
-      //       // create elements.
-      //       var card = $(`<div class="card${i}"></div>`); // js or jquery preffered
-      //       var date = $('<p>' + formattedDate + '</p>');
-      //       var ol = $('<ol><li>Temp: ' + data[i].main.temp + '</li><li>Wind: ' + data[i].wind.speed + '</li><li>Humidity: ' + data[i].main.humidity + '</li></ol>');
+            var cardTemp = data[i].main.temp;
+            var cardWind = data[i].wind.speed;
+            var cardHumid = data[i].main.humidity
 
-      //       card.append(date);
-      //       card.append(ol);
-      //       dayCardsContainer.append(card); // you have to sequence these to have nested elements.
 
-      //       console.log("renderBottomCards-dayCardsContainer: ", dayCardsContainer) // day 1 
 
-      // }
+            // create elements.
+            var card = $(`<div class="card"></div>`); // js or jquery preffered
+            var date = $('<p>' + formattedDate + '</p>');
+            var ol = $('<ol><li>Temp: ' + cardTemp + ' ℉' + '</li><li>Wind: ' + cardWind + ' mph' + '</li><li>Humidity: ' + cardHumid + ' %' + '</li></ol>');
+
+            // if statment that compares the temp, cloud, and rain that returns an icon
+            // if()
+
+            card.append(date);
+            card.append(ol);
+            dayCardsContainer.append(card); // you have to sequence these to have nested elements.
+
+            console.log("renderBottomCards-dayCardsContainer: ", dayCardsContainer) // day 1 
+
+      }
 
 }
 
@@ -145,7 +151,10 @@ function kelvinToFahrenheit(k) {
 
 
 /* Bugs: 
+- should store data in localStorge so you dont make a call every time.
+
 - not clearing the data when you select a different city.
+
 - should probrably have a default city loaded first, then user can change it.
 
 
