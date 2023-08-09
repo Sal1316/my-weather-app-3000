@@ -49,6 +49,7 @@ button {
 #dayCards {
       display:flex;
       justify-content: space-between;
+     
     
 }
 .card {
