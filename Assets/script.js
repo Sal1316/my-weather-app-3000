@@ -6,23 +6,24 @@ $(document).ready(function () {
 var searchBtnEl = $("#searchBtn");
 var cityBtns = $("#cityBtns");
 var apiKey = "2b968bda86e14018b6589f7ec132923f";
+var cityHistory = [];
 
 // Event Handlers:
-searchBtnEl.on("click", onSeachBtnClick);
-cityBtns.on("click", onCityBtnClick);
-
-// Functions:
-function onSeachBtnClick() {
+searchBtnEl.on("click", function () {
       var cityName = $("#cityInput").val(); // get the value inputed.
-
       getLatAndLong(cityName);
-}
-function onCityBtnClick(event) { // on city button click, pass the inner text to the fetchWeatherForecast fx.
+      // NEED TO SAVE TEH CITY NAME IN THE LOCAL STORAGE
+      // displayCityNames() 
+      saveCityName(cityName);
+      displayCityNames();
+});
+cityBtns.on("click", function (event) { // on city button click, pass the inner text to the fetchWeatherForecast fx.
       event.preventDefault();
       var cityName = event.target.innerText;
-
       getLatAndLong(cityName);
-}
+});
+
+// Functions:
 function getLatAndLong(city) { // fx gets the latitude and longitude coordinates for the inputed city.
       var url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`
       fetch(url)
@@ -56,14 +57,12 @@ function getFiveDayForecast(lat, lon) {
 function renderWeather(forecast) {// assigns the json objects values, to their respective element on the single current weather day.    
       $("#currentWeather").empty();// clears values default values before rendering:
 
-      console.log('forcast: ', forecast);
       var cityName = forecast.city.name;
       var cityTemp = kelvinToFahrenheit(forecast.list[0].main.temp); // [0] will eventually be replaced with i. 
       var cityWind = forecast.list[0].wind.speed;
       var cityHumid = forecast.list[0].main.humidity;
       var cityWeather = forecast.list[0].weather[0].main; // the main can displays: "Clear", "Rain", "Ligh Rain", "Clouds", and more.
 
-      console.log("cityWeather:", cityWeather)
       var resultsContainer = $("#currentWeather");
 
       var timeStamp = forecast.list[0].dt;
@@ -87,12 +86,10 @@ function renderBottomCards(forecast) {
 
       var dayCardsContainer = $("#dayCards");
       var data = forecast.list;  // data = 40 arrays of times
-      console.log('data: ', data);
 
-      for (var i = 0+5; i < data.length; i += 8) { // loops over the midnight time. every 8th array.
+      for (var i = 0 + 5; i < data.length; i += 8) { // loops over the midnight time. every 8th array.
             var dateObj = dayjs.unix(forecast.list[i].dt); // gets the date stamp number and coverts it to date format.
             var formattedDate = dateObj.format('MM/DD/YYYY');
-            // var getTime = 
 
             var cardTemp = kelvinToFahrenheit(data[i].main.temp);
             var cardWind = data[i].wind.speed;
@@ -102,12 +99,11 @@ function renderBottomCards(forecast) {
             // $('<div>') = creating & $('div') = accessing.
             var card = $('<div class="card"></div>'); // js or jquery preffered
             var date = $('<p class="date">' + formattedDate + "  " + ' </p>');
-            // var time = $('<p class="time">' + formattedDate + "  " + ' </p>');
 
             var iconHolder = $('<span class="icons"></span>');
             var icon = iconChooser(cardTemp, cardWeather);
             iconHolder.append(icon);
-            var ol = $('<ol class="ol-li"><li>Temp: ' + cardTemp + ' ℉' + '</li><li>Wind: ' + cardWind + ' mph' + '</li><li>Humidity: ' + cardHumid + ' %' + '</li></ol>');
+            var ol = $('<ol class="ol-li"><li>Temp: ' + cardTemp + ' &#8457;</li><li>Wind: ' + cardWind + ' mph' + '</li><li>Humidity: ' + cardHumid + ' %' + '</li></ol>');
 
             card.append(date);
             card.append(iconHolder);
@@ -120,7 +116,6 @@ function kelvinToFahrenheit(k) {
       return Math.ceil(f);
 }
 function iconChooser(temp, weather) {
-      // console.log(temp, weather)
       if (weather === "Clear") { //dont check rain or clouds.
             if (temp > 90) { //if statment that compares the temp, cloud, and rain that returns an icon
                   return $('<i class="fas fa-sun"></i>'); // hotter sun icon
@@ -134,12 +129,29 @@ function iconChooser(temp, weather) {
       }
 }
 
+function saveCityName(cityName) {
+      cityHistory.push(cityName);
+      localStorage.setItem('searchHistory', JSON.stringify(cityHistory));
+}
+function displayCityNames() {
+      var displayCityHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+      console.log('displayCityHistory: ', displayCityHistory);
+
+      // $('#cityInput').val('');
+      // displayCityHistory.forEach(function (cityName) {
+      //       $('#cityInput').append(cityName + ', ');
+      // });
+}
+
 
 /* 
 ToDo: 
-- when the user enters a city, it should store the city in the history.
+
 
 Bugs: 
+- city names not displaying in searchbar history.
+
+- local history deletes when you repeatedly enter names then refresh then enter more names.
 
 - should display the high temperate and not the one at midnight.
 
