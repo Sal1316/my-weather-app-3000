@@ -1,4 +1,9 @@
 /* for layout only */
+body {
+      font-family: 'Permanent Marker', 'cursive', sans-serif;
+      font-size: 13px;
+    }
+
 header {
       background: linear-gradient(.25turn, rgb(44, 61, 186), 50%, rgb(34, 15, 109));
       color: white;
@@ -30,7 +35,6 @@ aside {
 }
 button {
       width: 100%;
-     
       margin-top:14px;
 }
 /* section {
@@ -38,7 +42,7 @@ button {
 } */
 #currentWeather {
       border: 1px solid black;
-      padding: 3px;
+      padding: 15px 15px 0 15px;
       margin: 3px;   
 }
 #cardContainer {
@@ -49,16 +53,24 @@ button {
 #dayCards {
       display:flex;
       justify-content: space-between;
-     
-    
 }
 .card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background-color: rgb(30, 44, 81);
       height: 160px;
       width: 125px;
-      
+}
+.date {
+      font-weight: 700;
+}
+.card ol {
+      padding-left: 0;
 }
 .card li {
       list-style: none;
+      
+      padding-top: 5px;
       
 }
