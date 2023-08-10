@@ -89,9 +89,10 @@ function renderBottomCards(forecast) {
       var data = forecast.list;  // data = 40 arrays of times
       console.log('data: ', data);
 
-      for (var i = 0; i < data.length; i += 8) { // loops over the midnight time. every 8th array.
+      for (var i = 0+5; i < data.length; i += 8) { // loops over the midnight time. every 8th array.
             var dateObj = dayjs.unix(forecast.list[i].dt); // gets the date stamp number and coverts it to date format.
             var formattedDate = dateObj.format('MM/DD/YYYY');
+            // var getTime = 
 
             var cardTemp = kelvinToFahrenheit(data[i].main.temp);
             var cardWind = data[i].wind.speed;
@@ -100,7 +101,9 @@ function renderBottomCards(forecast) {
 
             // create and assign elements. $(<div>) = creating. $('div') = accessing.
             var card = $('<div class="card"></div>'); // js or jquery preffered
-            var date = $('<p class="forDate">' + formattedDate + "  " + ' </p>');
+            var date = $('<p class="date">' + formattedDate + "  " + ' </p>');
+            // var time = $('<p class="time">' + formattedDate + "  " + ' </p>');
+
             var iconHolder = $('<span class="icons"></span>');
             var icon = iconChooser(cardTemp, cardWeather);
             iconHolder.append(icon);
@@ -135,6 +138,10 @@ function iconChooser(temp, weather) {
 
 /* Bugs: 
 
+- should display the high temperate and not the one at midnight.
+
 - if time permits, get a background to show on current weather element.
+
+
 
 */
