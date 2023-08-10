@@ -99,7 +99,7 @@ function renderBottomCards(forecast) {
             var cardHumid = data[i].main.humidity
             var cardWeather = data[i].weather[0].main;
 
-            // create and assign elements. $(<div>) = creating. $('div') = accessing.
+            // $('<div>') = creating & $('div') = accessing.
             var card = $('<div class="card"></div>'); // js or jquery preffered
             var date = $('<p class="date">' + formattedDate + "  " + ' </p>');
             // var time = $('<p class="time">' + formattedDate + "  " + ' </p>');
@@ -107,7 +107,7 @@ function renderBottomCards(forecast) {
             var iconHolder = $('<span class="icons"></span>');
             var icon = iconChooser(cardTemp, cardWeather);
             iconHolder.append(icon);
-            var ol = $('<ol class="twm"><li>Temp: ' + cardTemp + ' ℉' + '</li><li>Wind: ' + cardWind + ' mph' + '</li><li>Humidity: ' + cardHumid + ' %' + '</li></ol>');
+            var ol = $('<ol class="ol-li"><li>Temp: ' + cardTemp + ' ℉' + '</li><li>Wind: ' + cardWind + ' mph' + '</li><li>Humidity: ' + cardHumid + ' %' + '</li></ol>');
 
             card.append(date);
             card.append(iconHolder);
@@ -135,8 +135,11 @@ function iconChooser(temp, weather) {
 }
 
 
+/* 
+ToDo: 
+- when the user enters a city, it should store the city in the history.
 
-/* Bugs: 
+Bugs: 
 
 - should display the high temperate and not the one at midnight.
 
