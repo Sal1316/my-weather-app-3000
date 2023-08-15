@@ -1,5 +1,6 @@
 $(document).ready(function () {
       getLatAndLong('Atlanta');
+      displayCityNames();
 });
 
 // Elements: 
@@ -38,27 +39,30 @@ function getLatAndLong(city) { // fx gets the latitude and longitude coordinates
             });
 }
 function getFiveDayForecast(lat, lon) {
-      var url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+      var url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
       fetch(url, {
             method: "GET", //GET is the default.*GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             redirect: "follow", // manual, *follow, error
-            units: "imperial",
+            // units: "imperial",
       })
             .then(function (response) {
                   return response.json(); // need to have the return here so we can use the next .then to get the response data.
             })
             .then(function (data) {
                   renderWeather(data);
+
                   renderBottomCards(data);
+                  console.log("renderBottomCards: ", data);
             });
 }
 function renderWeather(forecast) {// assigns the json objects values, to their respective element on the single current weather day.    
       $("#currentWeather").empty();// clears values default values before rendering:
 
+      console.log('forecast: ', forecast);
       var cityName = forecast.city.name;
-      var cityTemp = kelvinToFahrenheit(forecast.list[0].main.temp); // [0] will eventually be replaced with i. 
+      var cityTemp = forecast.list[0].main.temp; // [0] will eventually be replaced with i. 
       var cityWind = forecast.list[0].wind.speed;
       var cityHumid = forecast.list[0].main.humidity;
       var cityWeather = forecast.list[0].weather[0].main; // the main can displays: "Clear", "Rain", "Ligh Rain", "Clouds", and more.
@@ -87,11 +91,11 @@ function renderBottomCards(forecast) {
       var dayCardsContainer = $("#dayCards");
       var data = forecast.list;  // data = 40 arrays of times
 
-      for (var i = 0 + 5; i < data.length; i += 8) { // loops over the midnight time. every 8th array.
+      for (var i = 0 + 4; i < data.length; i += 8) { // loops over the midnight time. every 8th array.
             var dateObj = dayjs.unix(forecast.list[i].dt); // gets the date stamp number and coverts it to date format.
             var formattedDate = dateObj.format('MM/DD/YYYY');
 
-            var cardTemp = kelvinToFahrenheit(data[i].main.temp);
+            var cardTemp = data[i].main.temp;
             var cardWind = data[i].wind.speed;
             var cardHumid = data[i].main.humidity
             var cardWeather = data[i].weather[0].main;
@@ -134,22 +138,23 @@ function saveCityName(cityName) {
       localStorage.setItem('searchHistory', JSON.stringify(cityHistory));
 }
 function displayCityNames() {
-      var displayCityHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-      console.log('displayCityHistory: ', displayCityHistory);
+      var ciytHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+      console.log('ciytHistory: ', ciytHistory);
 
-      // $('#cityInput').val('');
-      // displayCityHistory.forEach(function (cityName) {
-      //       $('#cityInput').append(cityName + ', ');
-      // });
+      var cityContainer = $('#cityHistory')
+      ciytHistory.forEach(function (cityName) {
+            var cityRow = $('<div></div>').text(cityName);
+            cityContainer.append(cityRow);
+      });
 }
 
 
 /* 
 ToDo: 
-
+- city names should be displayed below the search button.
 
 Bugs: 
-- city names not displaying in searchbar history.
+
 
 - local history deletes when you repeatedly enter names then refresh then enter more names.
 
