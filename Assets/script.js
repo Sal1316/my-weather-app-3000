@@ -1,6 +1,5 @@
 $(document).ready(function () {
       getLatAndLong('Atlanta');
-      displayCityNames();
 });
 
 // Elements: 
@@ -13,9 +12,7 @@ var cityHistory = [];
 searchBtnEl.on("click", function () {
       var cityName = $("#cityInput").val(); // get the value inputed.
       getLatAndLong(cityName);
-      // NEED TO SAVE TEH CITY NAME IN THE LOCAL STORAGE
-      // displayCityNames() 
-      saveCityName(cityName);
+      saveCityToLocal(cityName);
       displayCityNames();
 });
 cityBtns.on("click", function (event) { // on city button click, pass the inner text to the fetchWeatherForecast fx.
@@ -24,9 +21,9 @@ cityBtns.on("click", function (event) { // on city button click, pass the inner 
       getLatAndLong(cityName);
 });
 
-// Functions:
+// Functions: 
 function getLatAndLong(city) { // fx gets the latitude and longitude coordinates for the inputed city.
-      var url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`
+      var url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`
       fetch(url)
             .then(function (response) {
                   return response.json(); // need to have the return here so we can use the next .then to get the response data.
@@ -39,7 +36,7 @@ function getLatAndLong(city) { // fx gets the latitude and longitude coordinates
             });
 }
 function getFiveDayForecast(lat, lon) {
-      var url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+      var url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
       fetch(url, {
             method: "GET", //GET is the default.*GET, POST, PUT, DELETE, etc.
@@ -51,13 +48,13 @@ function getFiveDayForecast(lat, lon) {
                   return response.json(); // need to have the return here so we can use the next .then to get the response data.
             })
             .then(function (data) {
-                  renderWeather(data);
+                  renderCurrentForcast(data);
 
                   renderBottomCards(data);
                   console.log("renderBottomCards: ", data);
             });
 }
-function renderWeather(forecast) {// assigns the json objects values, to their respective element on the single current weather day.    
+function renderCurrentForcast(forecast) {// assigns the json objects values, to their respective element on the single current weather day.    
       $("#currentWeather").empty();// clears values default values before rendering:
 
       console.log('forecast: ', forecast);
@@ -115,10 +112,6 @@ function renderBottomCards(forecast) {
             dayCardsContainer.append(card); // you have to sequence these to have nested elements.
       }
 }
-function kelvinToFahrenheit(k) {
-      var f = ((k - 273.15) * 1.8) + 32;
-      return Math.ceil(f);
-}
 function iconChooser(temp, weather) {
       if (weather === "Clear") { //dont check rain or clouds.
             if (temp > 90) { //if statment that compares the temp, cloud, and rain that returns an icon
@@ -132,8 +125,7 @@ function iconChooser(temp, weather) {
             return $('<i class="fas fa-cloud"></i>')
       }
 }
-
-function saveCityName(cityName) {
+function saveCityToLocal(cityName) {
       cityHistory.push(cityName);
       localStorage.setItem('searchHistory', JSON.stringify(cityHistory));
 }
@@ -147,21 +139,9 @@ function displayCityNames() {
             cityContainer.append(cityRow);
       });
 }
+function kelvinToFahrenheit(k) {
+      var f = ((k - 273.15) * 1.8) + 32;
+      return Math.ceil(f);
+}
 
 
-/* 
-ToDo: 
-- city names should be displayed below the search button.
-
-Bugs: 
-
-
-- local history deletes when you repeatedly enter names then refresh then enter more names.
-
-- should display the high temperate and not the one at midnight.
-
-- if time permits, get a background to show on current weather element.
-
-
-
-*/
